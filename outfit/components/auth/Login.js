@@ -23,7 +23,7 @@ export class Login extends Component {
 			console.log(result);
 		})
 		.catch((error) => {
-			console.log("Error in onSignUp(): " + error);
+			console.log("Error in onLogin(): " + error);
 		})
 	}
 
@@ -42,7 +42,7 @@ export class Login extends Component {
 				/>
 
 				<Button 
-					onPress= {()=> this.onSignUp()}
+					onPress= {()=> this.onLogin()}
 					title="Login"
 				/>
 				

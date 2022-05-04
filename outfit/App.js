@@ -2,18 +2,22 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
 
 
-//import firebase from 'firebase/compat/app'
+import { View, Text } from 'react-native'
+
 
 // v9 compat packages are API compatible with v8 code
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
-//require('dotenv').config();
+
+// redux & connecting to react native
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  /* add here*/
+ // insert here
 };
 
 if(firebase.apps.length === 0){
@@ -38,10 +42,39 @@ export class App extends Component {
   }
 
   componentDidMount(){
-      firebase.auth().onAuthStateChanged((user));
+      firebase.auth().onAuthStateChanged((user) => {
+        if(!user){
+          this.setState({
+            loggedIn: false,
+            loaded: true,
+          })
+        } else {
+          this.setState({
+            loggedIn: true,
+            loaded: true,
+          })
+        }
+      });
   }
 
   render(){
+      const { loggedIn, loaded } = this.state;
+      if(!loaded){
+          return(
+              <View>
+                <Text>Loading...</Text>
+              </View>
+          )
+      }
+
+      if(loggedIn){
+          return(
+            <View>
+                <Text>User is logged in.</Text>
+            </View>
+            )
+      }
+
       return (
           <NavigationContainer>
               <Stack.Navigator initialRouteName="Landing">
