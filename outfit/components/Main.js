@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser } from './redux/actions/index'
+import FeedScreen from './main/Feed'
+import ProfileScreen from './main/Profile'
+import AddScreen from './main/Add'
+
+
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
+const Tab = createBottomTabNavigator();
 
 export class Main extends Component {
 	componentDidMount(){
@@ -11,13 +21,28 @@ export class Main extends Component {
 	}
 
 	render(){
-		const { currentUser } = this.props;
-		console.log("Current User: ");
-		console.dir(currentUser);
+
 		return (
-			<View style = {{flex: 1, justifyContent: 'center'}}>
-				<Text>User is logged in (Main page here)</Text>
-			</View>
+		    <Tab.Navigator>
+		      	<Tab.Screen name="Feed" component={FeedScreen} 
+		      	options={{
+		      		tabBarIcon: ({ color, size }) => (
+		      			<MaterialCommunityIcons name = "tshirt-crew" color={color} size={26} />
+		      		),
+		      	}}/>
+		      	<Tab.Screen name="Add" component={AddScreen} 
+		      	options={{
+		      		tabBarIcon: ({ color, size }) => (
+		      			<MaterialCommunityIcons name = "camera" color={color} size={26} />
+		      		),
+		      	}}/>
+		      	<Tab.Screen name="Profile" component={ProfileScreen} 
+		      	options={{
+		      		tabBarIcon: ({ color, size }) => (
+		      			<MaterialCommunityIcons name = "account" color={color} size={26} />
+		      		),
+		      	}}/>
+			</Tab.Navigator>
 		)
 	}
 }

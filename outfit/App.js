@@ -21,7 +21,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  
+// info here
 };
 
 if(firebase.apps.length === 0){
@@ -87,7 +87,11 @@ export class App extends Component {
       return (
           // redux provider wrapped around main page
           <Provider  store={store}>
-              <MainScreen />
+              <NavigationContainer>
+                  <Stack.Navigator initialRouteName="Main">
+                      <Stack.Screen name="Main" component={MainScreen} options={{headerShown: false}}/>
+                  </Stack.Navigator>
+              </NavigationContainer>
           </Provider>
       )
 
