@@ -1,15 +1,19 @@
 import { USER_STATE_CHANGE } from '../constants/index'
-import firebase from 'firebase'
+
+import firebase from 'firebase/compat/app';
+import getDatabase from 'firebase/compat/database'
+
+import { doc, onSnapshot } from "firebase/firestore";
 
 
 
 export function fetchUser(){
 	return((dispatch) => {
 		firebase.firestore()
-			.collection("user")
+			.collection("users")
 			.doc(firebase.auth().currentUser.uid)
 			.get()
-			.then((snapshot) =>{
+			.then((snapshot) => {
 				if(snapshot.exists){
 					// we are able to get data from DB
 					// send to the reducer

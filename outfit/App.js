@@ -14,10 +14,14 @@ import 'firebase/compat/firestore';
 // redux & connecting to react native
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
+import rootReducer from './components/redux/reducers'
+import thunk from 'redux-thunk'
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
- // insert here
+  
 };
 
 if(firebase.apps.length === 0){
@@ -29,6 +33,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
+import MainScreen from './components/main'
 
 
 const Stack = createStackNavigator();
@@ -61,28 +66,32 @@ export class App extends Component {
       const { loggedIn, loaded } = this.state;
       if(!loaded){
           return(
-              <View>
+              <View style = {{flex: 1, justifyContent: 'center'}}>
                 <Text>Loading...</Text>
               </View>
           )
       }
 
-      if(loggedIn){
-          return(
-            <View>
-                <Text>User is logged in.</Text>
-            </View>
-            )
+      if(!loggedIn){
+          return (
+              <NavigationContainer>
+                  <Stack.Navigator initialRouteName="Landing">
+                      <Stack.Screen name="Landing" component={LandingScreen} options={{headerShown: false}}/>
+                      <Stack.Screen name="Register" component={RegisterScreen}/>
+                  </Stack.Navigator>
+              </NavigationContainer>
+          );
       }
 
+
       return (
-          <NavigationContainer>
-              <Stack.Navigator initialRouteName="Landing">
-                  <Stack.Screen name="Landing" component={LandingScreen} options={{headerShown: false}}/>
-                  <Stack.Screen name="Register" component={RegisterScreen}/>
-              </Stack.Navigator>
-          </NavigationContainer>
-      );
+          // redux provider wrapped around main page
+          <Provider  store={store}>
+              <MainScreen />
+          </Provider>
+      )
+
+
   }
 }
 
