@@ -1,4 +1,4 @@
-import { USER_STATE_CHANGE } from '../constants/index'
+import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE} from '../constants/index'
 
 import firebase from 'firebase/compat/app';
 import getDatabase from 'firebase/compat/database'
@@ -37,11 +37,12 @@ export function fetchUserPosts(){
 				let posts = snapshot.docs.map(doc => {
 					const data = doc.data();
 					const id = doc.id;
-					console.log("Data:");
-					console.dir(data);
-					console.log(", id: " + id);
+					return {id, ...data};
 				})
-				//console.log(snapshot.docs);
+
+				let download = snapshot.url;
+
+				dispatch({type : USER_POSTS_STATE_CHANGE, posts, download})
 			})
 	})
 }

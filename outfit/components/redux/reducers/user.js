@@ -16,7 +16,7 @@ export const user = (state = initialState, action) => {
 		case USER_POSTS_STATE_CHANGE:
 			return {
 				...state,
-				currentUser: action.posts
+				posts: action.posts
 			}
 
 		default:
