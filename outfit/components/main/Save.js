@@ -2,12 +2,12 @@ import React, {useState} from 'react'
 import { View, TextInput, Image, Button } from 'react-native'
 
 import  firebase from 'firebase/compat/app';
-import 'firebase/firestore';
+import { serverTimeStamp } from 'firebase/firestore';
 import 'firebase/auth';
 import {getStorage, ref, uploadBytes } from 'firebase/storage'; // require?
 
 
-export default function Save(props){
+export default function Save(props, {navigation}){
 	console.log(props.route.params.image);
 	const [caption, setCaption] = useState("");
 
@@ -27,8 +27,29 @@ export default function Save(props){
 		// 'file' comes from the Blob or File API
 		uploadBytes(storageRef, blob).then((snapshot) => {
   			console.log('Uploaded a blob!');
+  			console.log("snapshot:");
+  			console.dir(snapshot);
+  			savePostData(snapshot);
 		});
 
+	}
+
+	//console.log("field value: " + firebase.firestore.FieldValue.serverTimeStamp());
+
+	//let collectionRef = firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid);
+
+	const savePostData = (downloadURL) => {
+		firebase.firestore()
+			.collection('posts')
+			.doc(firebase.auth().currentUser.uid)
+			.collection('userPosts')
+			.add({
+				url: downloadURL.metadata.fullPath,
+				caption,
+				creation: downloadURL.metadata.timeCreated,
+			})/*.then((function () {
+				navigation.popToTop();
+			}))*/
 	}
 
 	return(
