@@ -24,3 +24,24 @@ export function fetchUser(){
 			})
 	})
 }
+
+export function fetchUserPosts(){
+	return((dispatch) => {
+		firebase.firestore()
+			.collection("posts")
+			.doc(firebase.auth().currentUser.uid)
+			.collection("userPosts")
+			.orderBy("creation", "asc")
+			.get()
+			.then((snapshot) => {
+				let posts = snapshot.docs.map(doc => {
+					const data = doc.data();
+					const id = doc.id;
+					console.log("Data:");
+					console.dir(data);
+					console.log(", id: " + id);
+				})
+				//console.log(snapshot.docs);
+			})
+	})
+}

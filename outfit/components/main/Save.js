@@ -8,7 +8,7 @@ import {getStorage, ref, uploadBytes } from 'firebase/storage'; // require?
 
 
 export default function Save(props, {navigation}){
-	console.log(props.route.params.image);
+	//console.log(props.route.params.image);
 	const [caption, setCaption] = useState("");
 
 	const uploadImage = async () => {
@@ -20,16 +20,21 @@ export default function Save(props, {navigation}){
 
 		const storage = getStorage();
 
-		const storageRef = ref(storage, `/posts/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`);
+
+		const rnd = `/posts/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`
+		const storageRef = ref(storage, rnd);
 		
-		console.log("Ref:" + storageRef);
+		//console.log("Ref:" + storageRef);
 
 		// 'file' comes from the Blob or File API
 		uploadBytes(storageRef, blob).then((snapshot) => {
   			console.log('Uploaded a blob!');
   			console.log("snapshot:");
   			console.dir(snapshot);
-  			savePostData(snapshot);
+  			const temp = "https://firebasestorage.googleapis.com/v0/b/outfit-otd.appspot.com/o/posts%2F" + firebase.auth().currentUser.uid
+  			 + "%2F" + snapshot.metadata.name + "?alt=media";
+  			console.log("URL NEW: " + temp);
+  			savePostData(snapshot, temp);
 		});
 
 	}
@@ -38,13 +43,13 @@ export default function Save(props, {navigation}){
 
 	//let collectionRef = firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid);
 
-	const savePostData = (downloadURL) => {
+	const savePostData = (downloadURL, newURL) => {
 		firebase.firestore()
 			.collection('posts')
 			.doc(firebase.auth().currentUser.uid)
 			.collection('userPosts')
 			.add({
-				url: downloadURL.metadata.fullPath,
+				url: newURL,
 				caption,
 				creation: downloadURL.metadata.timeCreated,
 			})/*.then((function () {
