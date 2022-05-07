@@ -1,4 +1,4 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
 import {View, Button, TextInput} from 'react-native'
 
 import firebase from 'firebase/compat/app' 
@@ -40,17 +40,20 @@ export class Register extends Component {
 				<TextInput 
 					placeholder="name"
 					onChangeText={(name) => this.setState({ name })}
+					style={{backgroundColor: 'blue'}}
 				/>
 
 				<TextInput 
 					placeholder="email"
 					onChangeText={(email) => this.setState({ email })}
+					style={{backgroundColor: 'blue'}}
 				/>
 
 				<TextInput 
 					placeholder="password"
 					secureTextEntry={true}
 					onChangeText={(password) => this.setState({ password })}
+					style={{backgroundColor: 'blue'}}
 				/>
 
 				<Button 
