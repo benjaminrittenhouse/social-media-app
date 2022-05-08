@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux'
 import { fetchUser, fetchUserPosts } from './redux/actions/index'
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
+import SearchScreen from './main/Search'
+
 
 
 
@@ -33,6 +35,13 @@ export class Main extends Component {
 		      	options={{
 		      		tabBarIcon: ({ color, size }) => (
 		      			<MaterialCommunityIcons name = "tshirt-crew" color={color} size={26} />
+		      		),
+		      		headerShown: false,
+		      	}}/>
+		      	<Tab.Screen name="Search" component={SearchScreen} 
+		      	options={{
+		      		tabBarIcon: ({ color, size }) => (
+		      			<MaterialCommunityIcons name = "account-search" color={color} size={26} />
 		      		),
 		      		headerShown: false,
 		      	}}/>

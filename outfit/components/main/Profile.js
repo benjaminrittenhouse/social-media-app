@@ -11,8 +11,7 @@ function Profile(props){
 	return(
 		<View style={styles.container}>
 			<View style={styles.infoContainer}>
-				<Text>{currentUser.name}</Text>
-				<Text>{currentUser.email}</Text>
+				<Text style={styles.profText}>{currentUser.name}</Text>
 			</View>
 
 			<View style={styles.postsContainer}>
@@ -39,20 +38,30 @@ function Profile(props){
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 40
+		marginTop: 40,
+		marginLeft: 10,
+		marginRight: 10
 	}, 
-	containerInfo: {
+	infoContainer: {
 		margin: 10
 	},
 	postsContainer: {
 		flex: 1,
+		marginTop: 10
 	},
 	image: {
 		flex: 1,
 		aspectRatio: 1/1
 	},
 	containerImage: {
-		flex: 1/3
+		flex: 1/3,
+		borderRadius: 33,
+		overflow: 'hidden',
+		margin: 5
+	}, 
+	profText: {
+		fontSize: 30,
+		fontWeight: 'bold'
 	}
 })
 
