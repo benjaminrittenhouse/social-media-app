@@ -1,10 +1,17 @@
-import {USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE} from '../constants/index'
+import {USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, CLEAR_DATA} from '../constants/index'
 
 import firebase from 'firebase/compat/app';
 import getDatabase from 'firebase/compat/database'
 
 import { doc, onSnapshot } from "firebase/firestore";
 
+
+// clear redux whne they logout
+export function clearData(){
+	return ((dispatch) => {
+		dispatch({type: CLEAR_DATA})
+	})
+}
 
 
 export function fetchUser(){
@@ -27,11 +34,12 @@ export function fetchUser(){
 
 export function fetchUserPosts(){
 	return((dispatch) => {
+
 		firebase.firestore()
 			.collection("posts")
 			.doc(firebase.auth().currentUser.uid)
 			.collection("userPosts")
-			.orderBy("creation", "asc")
+			.orderBy("creation", "desc")
 			.get()
 			.then((snapshot) => {
 				let posts = snapshot.docs.map(doc => {
@@ -39,6 +47,9 @@ export function fetchUserPosts(){
 					const id = doc.id;
 					return {id, ...data};
 				})
+
+				console.log("Ordered:");
+				console.dir(posts);
 
 				let download = snapshot.url;
 
@@ -63,14 +74,14 @@ export function fetchUserFollowing(){
 
 				dispatch({type : USER_FOLLOWING_STATE_CHANGE, following})
 				for(let i = 0; i < following.length; i++){
-					dispatch(fetchUsersData(following[i]));
+					dispatch(fetchUsersData(following[i], true));
 				}
 
 			})
 	})
 }
 
-export function fetchUsersData(uid){
+export function fetchUsersData(uid, getPosts){
 	return((dispatch, getState) => {
 		// tries to see if an element with the UID exists within array (followers feed)
 		const found = getState().usersState.users.some(el => el.uid === uid);
@@ -86,11 +97,14 @@ export function fetchUsersData(uid){
 					user.uid = snapshot.id;
 
 					dispatch({type : USERS_DATA_STATE_CHANGE, user}) // update state of current user
-					dispatch(fetchUsersFollowingPosts(user.uid));
 				} else {
 					console.log('Snapshot does not exist, err: actions/index.js');
 				}
 			})
+
+			if(getPosts){
+				dispatch(fetchUsersFollowingPosts(uid));
+			}
 		}
 	})
 }
@@ -102,7 +116,7 @@ export function fetchUsersFollowingPosts(uid){
 			.collection("posts")
 			.doc(uid)
 			.collection("userPosts")
-			.orderBy("creation", "asc")
+			.orderBy("creation", "desc")
 			.get()
 			.then((snapshot) => {
 				
