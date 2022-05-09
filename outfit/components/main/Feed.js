@@ -31,9 +31,9 @@ function Feed(props){
 
 	}, [props.usersLoaded])
 
-	//const { currentUser, posts, url} = props;
 
-	return(
+	if(posts.length !== 0){
+		return(
 		<View style={styles.container}>
 			<View style={styles.postsContainer}>
 				<FlatList 
@@ -54,7 +54,15 @@ function Feed(props){
 				/>
 			</View>
 		</View>
-	)
+		)
+	} else {
+		return(
+			<View>
+				<Text style={{fontSize: 50, alignContent: 'center', justifyContent: 'center', textAlign: 'center'}}>You are not following anyone.</Text>
+			</View>
+		)
+	}
+	
 }
 
 const styles = StyleSheet.create({

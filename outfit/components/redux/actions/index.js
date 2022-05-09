@@ -61,11 +61,6 @@ export function fetchUserFollowing(){
 
 				let download = snapshot.url;
 
-				console.log("Following:");
-				console.dir(following);
-				console.log("Length");
-				console.log(following.length);
-
 				dispatch({type : USER_FOLLOWING_STATE_CHANGE, following})
 				for(let i = 0; i < following.length; i++){
 					dispatch(fetchUsersData(following[i]));
@@ -110,21 +105,27 @@ export function fetchUsersFollowingPosts(uid){
 			.orderBy("creation", "asc")
 			.get()
 			.then((snapshot) => {
-				console.log("snapshot.query");
-				console.dir(snapshot.query._delegate.firestore._authCredentials.currentUser.uid);
-				const uid =  snapshot.docs[0].ref.path.split('/')[1];
+				
+				if(snapshot.docs[0]){
+					const uid =  snapshot.docs[0].ref.path.split('/')[1];
 
-				const user = getState().usersState.users.find(el => el.uid === uid);
+					const user = getState().usersState.users.find(el => el.uid === uid);
 
-				let posts = snapshot.docs.map(doc => {
-					const data = doc.data();
-					const id = doc.id;
-					return {id, ...data, user};
-				})
+					let posts = snapshot.docs.map(doc => {
+						const data = doc.data();
+						const id = doc.id;
+						return {id, ...data, user};
+					})
 
-				let download = snapshot.url;
+					let download = snapshot.url;
 
-				dispatch({type : USERS_POSTS_STATE_CHANGE, posts, uid})
+					dispatch({type : USERS_POSTS_STATE_CHANGE, posts, uid})
+				} else {
+					let posts = null;
+					const uid = null;
+					dispatch({type : USERS_POSTS_STATE_CHANGE, posts, uid})
+				}
+				
 			})
 	})
 }
