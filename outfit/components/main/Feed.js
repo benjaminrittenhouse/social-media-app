@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 
 function Feed(props){
 	const [posts, setPosts] = useState([]);
+	const [liked, setLikeStatus] = useState(false);
 	var followingButNoPosts = true;
 
 	useEffect(() => {
@@ -17,14 +18,19 @@ function Feed(props){
 
 			setPosts(props.feed);
 
-		}
+			console.log("PROPS FEED:");
+			console.dir(props.feed);
 
-		console.log("POSTS");
-		console.dir(posts);
+		}
 	}, [props.usersFollowingLoaded, props.feed])
 
 
+
 	const onLikePress = (userId, postId) => {
+		console.log("adding " + firebase.auth().currentUser.uid + " to " + userId + "'s post: " + postId);
+		setLikeStatus(true);
+		console.log("User liked this post? " + liked);
+
 		firebase.firestore()
 			.collection("posts")
 			.doc(userId)
@@ -36,6 +42,9 @@ function Feed(props){
 	}
 
 	const onDislikePress = (userId, postId) => {
+		setLikeStatus(false);
+		console.log("removing " + firebase.auth().currentUser.uid + " from " + userId + "'s post: " + postId);
+		console.log("User liked this post? " + liked);
 		firebase.firestore()
 			.collection("posts")
 			.doc(userId)
@@ -44,6 +53,8 @@ function Feed(props){
 			.collection("likes")
 			.doc(firebase.auth().currentUser.uid)
 			.delete()
+
+
 	}
 
 
@@ -52,6 +63,8 @@ function Feed(props){
 		<View style={styles.container}>
 			<View style={styles.postsContainer}>
 				<FlatList 
+				  	showsVerticalScrollIndicator={false}
+  					showsHorizontalScrollIndicator={false}
 					numColumns={1}
 					horizontal={false}
 					data={posts}
@@ -59,31 +72,19 @@ function Feed(props){
 						<View 
 							style={styles.containerImage}
 						>
-							<Text style={styles.container}>{item.user.name}</Text>
+							
+							
 							<Image 
 								style={styles.image}
 								source={{uri: item.url}} // note
 							/>
 
-
-
-							{ item.currentUserLike ? 
-								(
-									<Button 
-										title="Dislike"
-										onPress={() => onDislikePress(item.user.uid, item.id)}
-									/>
-								) 
-								:
-								(
-									<Button 
-										title="Like"
-										onPress={() => onLikePress(item.user.uid, item.id)}
-									/>
-								)
-							}
-
+							<Text style={styles.caption}>
+								<Text style={styles.at}>@{item.user.name}</Text><Text style={styles.captionText}>{item.caption}</Text>
+							</Text>
+							
 							<Text  
+								style={styles.viewComments}
 								onPress={() => props.navigation.navigate('Comment', 
 									{postId: item.id, uid: item.user.uid}
 								)}>
@@ -116,30 +117,44 @@ function Feed(props){
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginTop: 40,
-		marginLeft: 10,
-		marginRight: 10
 	}, 
-	infoContainer: {
-		margin: 10
-	},
 	postsContainer: {
 		flex: 1,
 		marginTop: 10
 	},
 	image: {
-		flex: 1,
-		aspectRatio: 1/1
+		height: 300,
+        flex: 1,
+        width: null,
 	},
 	containerImage: {
-		flex: 1/3,
-		borderRadius: 33,
+		flex: 1,
 		overflow: 'hidden',
-		margin: 5
+		marginBottom: 30
 	}, 
 	profText: {
 		fontSize: 30,
 		fontWeight: 'bold'
+	},
+	user: {
+		fontSize: 20,
+		marginLeft: 20,
+		marginBottom: 5
+	},
+	viewComments: {
+		color: 'gray',
+		marginLeft: 30
+	},
+	caption: {
+		fontSize: 14,
+		marginLeft: 10,
+		marginBottom: 5
+	},
+	at: {
+		fontWeight: 'bold',
+	},
+	captionText: {
+		marginLeft: 5,
 	}
 })
 

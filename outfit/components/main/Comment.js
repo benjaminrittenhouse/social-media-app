@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList, Button, TextInput } from 'react-native'
+import { View, Text, FlatList, Button, TextInput, StyleSheet, forceUpdate } from 'react-native'
 
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore';
@@ -70,41 +70,64 @@ function Comment(props) {
 			creator: firebase.auth().currentUser.uid,
 			text
 		})
+
+		forceUpdate();
 	}
 
 	return (
-		<View>
+		<View style={styles.main}>
 			<FlatList 
 				numColumns = {1}
 				horizontal = {false}
 				data = {comments}
 				renderItem = {({item}) => (
-					<View>
+					<View style={styles.comments}>
 						{item.user !== undefined ? 
 							<Text>
-								{item.user.name}
+								<Text style={styles.username}>{item.user.name}</Text><Text style={styles.comment}>{item.text}</Text>
 							</Text>
 						: null}
-						<Text>{item.text}</Text>
+						
 
 					</View>
 				)}
 			/>
 
-			<View>
+			<View style={styles.bottom}>
 				<TextInput 
 					placeholder = 'Comment...'
 					onChangeText = {(text) => setText(text)}
 				/>
 
 				<Button 
-					onPress = {() => onCommentSend()}
+					onPress = {() => {onCommentSend()}}
 					title="Send"
 				/>
 			</View>
 		</View>
 	)
 }
+
+const styles = StyleSheet.create({
+	username: {
+		fontWeight: 'bold',
+	},
+	comment: {
+		margin: 3
+	},
+	comments: {
+		marginLeft: 3,
+		marginTop: 5
+	},
+	bottom: {
+		flex: 1,
+   		justifyContent: 'flex-end',
+	},
+	main: {
+		flex: 1,
+   		justifyContent: 'flex-end',	
+	}
+})
 
 const mapStateToProps = (store) => ({
 	users: store.usersState.users

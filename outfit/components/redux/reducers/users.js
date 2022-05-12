@@ -24,10 +24,10 @@ export const users = (state = initialState, action) => {
 		case USERS_LIKES_STATE_CHANGE:
 			return {
 				...state,
-				feed: state.feed.map(post => post.id == action.postId ? 
-					{...post, currentUserLike: action.currentUserLike } :
-					post)
-			}
+                feed: state.feed.map(post => post.id == action.postId ?
+                    { ...post, currentUserLike: action.currentUserLike } :
+                    post)
+            }
 
 		case CLEAR_DATA:
 			return initialState;
