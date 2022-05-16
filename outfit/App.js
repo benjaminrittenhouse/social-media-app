@@ -22,7 +22,13 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-
+  apiKey: "AIzaSyBtighr1SfThnodnkUYjY0R4numWwrH1hQ",
+  authDomain: "outfit-otd.firebaseapp.com",
+  projectId: "outfit-otd",
+  storageBucket: "outfit-otd.appspot.com",
+  messagingSenderId: "659499075318",
+  appId: "1:659499075318:web:9dfd3e3374cd5afef44ed7",
+  measurementId: "G-6FF3DLBCZ1"
 };
 
 if(firebase.apps.length === 0){
