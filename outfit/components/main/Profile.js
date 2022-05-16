@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import { StyleSheet, View, Text, Image, FlatList, Button } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, Button, TouchableOpacity } from 'react-native'
 import firebase from 'firebase/compat/app'
 require('firebase/firestore');
 import {connect} from 'react-redux'
@@ -107,10 +107,14 @@ function Profile(props){
 						)}
 					</View>
 				) : 
-						<Button 
-							title="Logout"
+				<View style={styles.buttonView}>
+						<TouchableOpacity 
+							style={styles.logout}
 							onPress={() => onLogout()}
-						/>
+						>
+							<Text style={styles.logoutText}>Logout</Text>
+						</TouchableOpacity>
+				</View>
 				}
 			</View>
 
@@ -162,6 +166,24 @@ const styles = StyleSheet.create({
 	profText: {
 		fontSize: 30,
 		fontWeight: 'bold'
+	},
+	logout: {
+		marginTop: 10,
+		backgroundColor: '#0c95f0',
+		width: '50%',
+		textAlign: 'center',
+		alignContent: 'center',
+		alignItems: 'center',
+		flex: 1,
+	},
+	logoutText: {
+		fontSize: 20,
+		margin: 5,
+	},
+	buttonView: {
+		alignContent: 'center',
+		alignItems: 'center',
+		flex: 1,
 	}
 })
 

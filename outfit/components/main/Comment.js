@@ -71,7 +71,6 @@ function Comment(props) {
 			text
 		})
 
-		forceUpdate();
 	}
 
 	return (

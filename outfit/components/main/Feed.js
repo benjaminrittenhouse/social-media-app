@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import { StyleSheet, View, Text, Image, FlatList, Button } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, Button, Header } from 'react-native'
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import {connect} from 'react-redux'
@@ -61,7 +61,11 @@ function Feed(props){
 	if(posts.length !== 0){ // there are posts to display
 		return(
 		<View style={styles.container}>
+
 			<View style={styles.postsContainer}>
+				<View style={styles.headerContainer}>
+					<Text style={styles.headerText}>Home</Text>
+				</View>
 				<FlatList 
 				  	showsVerticalScrollIndicator={false}
   					showsHorizontalScrollIndicator={false}
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
 	}, 
 	postsContainer: {
 		flex: 1,
-		marginTop: 10
+	//	marginTop: 10
 	},
 	image: {
 		height: 300,
@@ -155,6 +159,15 @@ const styles = StyleSheet.create({
 	},
 	captionText: {
 		marginLeft: 5,
+	},
+	headerText: {
+		fontSize: 35,
+		margin: 5,
+		fontWeight: 'bold',
+		fontStyle: 'italics',
+	},
+	headerContainer: {
+		backgroundColor: '#0c95f0',
 	}
 })
 

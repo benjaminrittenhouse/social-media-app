@@ -34,11 +34,12 @@ export class Main extends Component {
 
 		return (
 		    <Tab.Navigator initialRouteName="Feed" labeled = {false}
+		    		//headerShown = {false}
 		   	>
 		      	<Tab.Screen name="Feed" component={FeedScreen} 
 		      	options={{
 		      		tabBarIcon: ({ color, size }) => (
-		      			<MaterialCommunityIcons name = "tshirt-crew" color={color} size={26} />
+		      			<MaterialCommunityIcons name = "home" color={color} size={26} />
 		      		),
 		      		headerShown: false,
 		      	}}/>
@@ -47,7 +48,7 @@ export class Main extends Component {
 		      		tabBarIcon: ({ color, size }) => (
 		      			<MaterialCommunityIcons name = "account-search" color={color} size={26} />
 		      		),
-		      		headerShown: false,
+		      		//headerShown: false,
 		      	}}/>
 		      	<Tab.Screen name="AddContainer" component={EmptyScreen} 
 			      	listeners = {({ navigation }) => ({
