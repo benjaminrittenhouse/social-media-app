@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import { StyleSheet, View, Text, Image, FlatList, Button, Header } from 'react-native'
+import { StyleSheet, View, Text, Image, FlatList, Button, Header, Platform } from 'react-native'
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import {connect} from 'react-redux'
@@ -168,7 +168,15 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		backgroundColor: '#0c95f0',
-	}
+	},
+	...Platform.select({
+      ios: {
+      	headerContainer: {
+      		paddingTop: 40,
+      		backgroundColor: '#0c95f0' 
+      	}
+      },
+    })
 })
 
 const mapStateToProps = (store) => ({

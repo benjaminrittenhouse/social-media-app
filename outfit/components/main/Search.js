@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 
 import firebase from 'firebase/compat/app'
 
@@ -68,5 +68,13 @@ var styles = StyleSheet.create({
 	usernames: {
 		fontSize: 20,
 		marginBottom: 5,
-	}
+	},
+	...Platform.select({
+      ios: {
+      	headerContainer: {
+      		paddingTop: 40,
+      		backgroundColor: '#0c95f0' 
+      	}
+      }
+  }),
 })
