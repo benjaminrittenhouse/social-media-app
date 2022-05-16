@@ -117,7 +117,7 @@ export function fetchUsersFollowingPosts(uid){
 			.get()
 			.then((snapshot) => {
 				
-				/*if(snapshot.docs[0]){*/
+				if(snapshot.docs[0]){
 					const uid =  snapshot.docs[0].ref.path.split('/')[1];
 
 					const user = getState().usersState.users.find(el => el.uid === uid);
@@ -134,11 +134,11 @@ export function fetchUsersFollowingPosts(uid){
 						dispatch(fetchUsersFollowingLikes(uid, posts[i].id))
 					}
 					dispatch({type : USERS_POSTS_STATE_CHANGE, posts, uid})
-				/*} else {
-					let posts = null;
+				} else {
+					let posts = [];
 					const uid = null;
 					dispatch({type : USERS_POSTS_STATE_CHANGE, posts, uid})
-				}*/
+				}
 				
 			})
 	})

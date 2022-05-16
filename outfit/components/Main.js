@@ -6,6 +6,7 @@ import { fetchUser, fetchUserPosts, fetchUserFollowing, clearData} from './redux
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
 import SearchScreen from './main/Search'
+import AddScreen from './main/Add'
 
 import firebase from 'firebase/compat/app'
 

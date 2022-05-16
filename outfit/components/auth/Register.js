@@ -61,7 +61,7 @@ export class Register extends Component {
 
 				<View style={styles.buttonView}>
 				<TouchableOpacity 
-					onPress= {()=> this.onRegister()}
+					onPress= {()=> this.onSignUp()}
 					style={styles.button}
 				>
 					<Text style={styles.buttonText}>Register</Text>
