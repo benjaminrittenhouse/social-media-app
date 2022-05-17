@@ -9,6 +9,9 @@ Testing was done in mobile view and the app was designed for mobile via React Na
 
 To utilize expo, install all dependencies and run "expo start -c" to run with a clear cache. 
 
+# Firebase Design
+The design of the firebase firestore database consisted of users, posts, following, etc. The path would follow information linked to each specific user. For example, if you wanted to fetch the posts from a specific user, you would access the posts collection, and then the uid within that collection, to which all of the posts would be filed. Similiarly, if you wanted to find out everyone who the current user is following, you would access the uid and then the "following" collection that is connected to said user.
+
 # Resources
 
 https://redux.js.org/
